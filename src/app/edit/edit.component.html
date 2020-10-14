@@ -1,0 +1,50 @@
+<div *ngIf="(campaign$ | async) as campaign">
+	
+	<p>{{ campaign.name }}</p>
+
+	<div>
+		<button type="button" (click)="saveEdits()" routerLink="/">Save Changes</button>
+		<button type="button" routerLink="/">Cancel</button>
+	</div>
+
+	<p>City Events</p>
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Active</th>
+				<th scope="col">Seen</th>
+				<th scope="col">Completed</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let event of campaign.city">
+				<th scope="row">{{ event.number }}</th>
+				<td><input type="checkbox" [(ngModel)]="event.active"></td>
+				<td><input type="checkbox" [(ngModel)]="event.seen"></td>
+				<td><input type="checkbox" [(ngModel)]="event.complete"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>Road Events</p>
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Active</th>
+				<th scope="col">Seen</th>
+				<th scope="col">Completed</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let event of campaign.road">
+				<th scope="row">{{ event.number }}</th>
+				<td><input type="checkbox" [(ngModel)]="event.active"></td>
+				<td><input type="checkbox" [(ngModel)]="event.seen"></td>
+				<td><input type="checkbox" [(ngModel)]="event.complete"></td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>

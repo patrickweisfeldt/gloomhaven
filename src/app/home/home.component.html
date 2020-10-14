@@ -1,0 +1,24 @@
+<p>Campaigns:</p>
+<div *ngFor="let campaign of campaigns$ | async">
+	<div>{{ campaign.name }}</div>
+	<div *ngIf="!eventSelected; else eventOptions">
+		<button type="button" (click)="pickCityEvent(campaign)">City Event</button>
+		<button type="button" (click)="pickRoadEvent(campaign)">Road Event</button>
+		<button type="button" (click)="editCampaign(campaign)" routerLink="/edit">
+			Edit Events
+		</button>
+	</div>
+	<ng-template #eventOptions>
+		<div>{{ eventData.type }} Event: {{ eventData.event.number }}</div>
+		<div>
+			<button type="button" (click)="completeEvent(campaign, false)">Repeatable</button>
+			<button type="button" (click)="completeEvent(campaign, true)">Completed</button>
+		</div>
+	</ng-template>
+</div>
+<br>
+<input [(ngModel)]="campaignName">
+<br>
+<button type="button" (click)="createCampaign()" [disabled]="!campaignName">
+	Create New Campaign
+</button>

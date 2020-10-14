@@ -1,0 +1,11 @@
+{
+	"targets": {
+		"gloom-c8e6c": {
+			"hosting": {
+				"Gloom": [
+					"gloom-c8e6c"
+				]
+			}
+		}
+	}
+}
