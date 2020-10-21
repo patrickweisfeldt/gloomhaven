@@ -20,6 +20,7 @@ export class StateService {
 	}
 
 	private set campaigns(value: Campaign[]) {
+		value.sort((a: Campaign, b: Campaign) => a.name < b.name ? -1 : 1);
 		window.localStorage.setItem('gloom', JSON.stringify(value));
 		this._campaigns.next(value);
 	}
@@ -46,7 +47,9 @@ export class StateService {
 
 	loadState(): void {
 		const data = window.localStorage.getItem('gloom');
-		this.campaigns = data ? JSON.parse(data) : [];
+		this.campaigns = data ?
+			JSON.parse(data).map(campaign => new Campaign(campaign)) :
+			[];
 	}
 
 	saveEdits(): void {
@@ -57,7 +60,7 @@ export class StateService {
 		this.editingCampaign = null;
 	}
 
-	updateEvent(campaign: Campaign): void {
+	updateCampaign(campaign: Campaign): void {
 		this.campaigns = [
 			...this.campaigns.filter(c => c.name !== campaign.name),
 			campaign

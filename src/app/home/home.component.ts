@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Campaign, Event, shuffle } from '../models';
+import { Campaign } from '../models';
 import { StateService } from '../state.service';
 
 @Component({
@@ -18,26 +18,13 @@ export class HomeComponent implements OnInit {
 
 	campaigns$: Observable<Campaign[]>;
 
-	eventData: any;
-
-	eventSelected: boolean = false;
-
 	completeEvent(campaign: Campaign, completed: boolean): void {
-		let event: Event;
-		if (this.eventData.type === 'City') {
-			event = campaign.city.find(e => e.number === this.eventData.event.number);
-		} else {
-			event = campaign.road.find(e => e.number === this.eventData.event.number);
-		}
-		event.seen = true;
-		if (completed) { event.complete = true; }
-		this.state.updateEvent(campaign);
-		this.eventSelected = false;
-		this.eventData = null;
+		campaign.completeEvent(completed);
+		this.state.updateCampaign(campaign);
 	}
 
 	createCampaign(): void {
-		this.state.addCampaign(new Campaign(this.campaignName));
+		this.state.addCampaign(new Campaign({ name: this.campaignName }));
 		this.campaignName = '';
 	}
 
@@ -50,22 +37,12 @@ export class HomeComponent implements OnInit {
 		this.state.loadState();
 	}
 
-	pickCityEvent(campaign: Campaign): void {
-		this.eventSelected = true;
-		this.eventData = { type: 'City', event: this.selectRandomEvent(campaign.city) };
+	selectCityEvent(campaign: Campaign): void {
+		campaign.selectCityEvent();
 	}
 
-	pickRoadEvent(campaign: Campaign): void {
-		this.eventSelected = true;
-		this.eventData = { type: 'Road', event: this.selectRandomEvent(campaign.road) };
-	}
-
-	selectRandomEvent(events: Event[]): Event {
-		const selectable: Event[] = events
-			.filter(e => e.active)
-			.filter(e => !e.complete);
-		shuffle(selectable);
-		return selectable[0];
+	selectRoadEvent(campaign: Campaign): void {
+		campaign.selectRoadEvent();
 	}
 
 }
