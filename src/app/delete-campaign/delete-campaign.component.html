@@ -1,0 +1,21 @@
+<!-- Overall container -->
+<div class="container-fluid p-4">
+
+	<!-- Warning -->
+	<h3 class="text-center">Are you sure?</h3>
+	<!-- End warning -->
+
+	<!-- Action buttons -->
+	<div class="row justify-content-center mt-4">
+		<button class="btn btn-danger btn-sm mx-2"
+						type="submit" (click)="submit(true)">
+			Delete
+		</button>
+		<button class="btn btn-secondary btn-sm mx-2" (click)="submit(false)">
+			Cancel
+		</button>
+	</div>
+	<!-- End actions buttons -->
+	
+</div>
+<!-- End overall container -->

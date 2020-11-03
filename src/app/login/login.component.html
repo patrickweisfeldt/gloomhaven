@@ -1,0 +1,44 @@
+<!-- Overall card container -->
+<div class="card login-form p-2 mx-auto my-4">
+
+	<!-- Card body container -->
+	<div class="card-body">
+
+		<!-- Form container -->
+		<form [formGroup]="signInForm" (ngSubmit)="signIn()">
+
+			<!-- Email input container -->
+			<div class="form-group row">
+				<label for="email" class="col-sm-3 col-form-label">Email:</label>
+				<div class="col-sm-9">
+					<input id="email" class="form-control" type="email"
+								placeholder="Email" formControlName="email">
+				</div>
+			</div>
+			<!-- End email input container -->
+
+			<!-- Password input container -->
+			<div class="form-group row">
+				<label for="password" class="col-sm-3 col-form-label">Password:</label>
+				<div class="col-sm-9">
+					<input id="password" class="form-control" type="password" 
+								placeholder="Password" formControlName="password">
+				</div>
+			</div>
+			<!-- End password input container -->
+
+			<!-- Action button -->
+			<button type="submit" class="btn btn-primary btn-block"
+							[disabled]="!signInForm.valid">
+				Sign In
+			</button>
+			<!-- End action button -->
+			
+		</form>
+		<!-- End form container -->
+
+	</div>
+	<!-- End card body container -->
+
+</div>
+<!-- End overall card container -->

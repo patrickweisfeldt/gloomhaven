@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 import { Campaign } from '../models';
-import { StateService } from '../state.service';
+
 
 @Component({
 	selector: 'app-edit',
@@ -12,16 +14,12 @@ import { StateService } from '../state.service';
 })
 export class EditComponent implements OnInit {
 
-	constructor(private state: StateService) { }
+	constructor(private route: ActivatedRoute) { }
 
 	campaign$: Observable<Campaign>;
 
 	ngOnInit(): void {
-		this.campaign$ = this.state.editingCampaign$;
-	}
-
-	saveEdits(): void {
-		this.state.saveEdits();
+		this.campaign$ = this.route.data.pipe( pluck('campaign') );
 	}
 
 }

@@ -1,0 +1,56 @@
+<!-- Overall container -->
+<div class="container-fluid p-4">
+
+	<!-- Form container -->
+	<form (ngSubmit)="submit()">
+
+		<!-- Event number selection -->
+		<div class="form-group">
+			<fieldset>
+				<select id="newEventNumber" class="custom-select" required
+								name="newEventNumber" [(ngModel)]="number">
+					<option disabled selected>Select Event Number</option>
+					<option *ngFor="let i of numberOptions" value="{{ i }}">{{ i }}</option>
+				</select>
+			</fieldset>
+		</div>
+		<!-- End event number selection -->
+
+		<!-- Event type selection -->
+		<div class="form-group">
+			<fieldset>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" id="cityCheck" class="custom-control-input"
+								 name="cityCheck" [(ngModel)]="city">
+					<label for="cityCheck" class="custom-control-label">
+						City Event
+					</label>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" id="roadCheck" class="custom-control-input"
+								 name="roadCheck" [(ngModel)]="road" [disabled]="number > 69">
+					<label for="roadCheck" class="custom-control-label">
+						Road Event
+					</label>
+				</div>
+			</fieldset>
+		</div>
+		<!-- End event type selection -->
+
+		<!-- Action buttons -->
+		<div class="row justify-content-center mt-4">
+			<button type="submit" class="btn btn-primary btn-sm mx-2"
+							[disabled]="!number || !(city || road)">
+				Add Event
+			</button>
+			<button class="btn btn-secondary btn-sm mx-2" (click)="close()">
+				Cancel
+			</button>
+		</div>
+		<!-- End action buttons -->
+		
+	</form>
+	<!-- End form container -->
+
+</div>
+<!-- End overall container -->

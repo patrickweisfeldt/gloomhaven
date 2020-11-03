@@ -1,0 +1,33 @@
+<!-- Overall container -->
+<div class="container-fluid p-4">
+	
+	<!-- Form container -->
+	<form (ngSubmit)="submit()">
+
+		<!-- Campaign name field -->
+		<div class="form-group">
+			<label for="newCampaignName" class="form-control-label">
+				Enter Campaign Name:
+			</label>
+			<input type="text" id="newCampaignName" class="form-control"
+						 name="newCampaignName" [(ngModel)]="name">
+		</div>
+		<!-- End campaign name field -->
+		
+		<!-- Action buttons -->
+		<div class="row justify-content-center mt-4">
+			<button class="btn btn-primary btn-sm mx-2"
+							type="submit" [disabled]="!name">
+				Create Campaign
+			</button>
+			<button class="btn btn-secondary btn-sm mx-2" (click)="close()">
+				Cancel
+			</button>
+		</div>
+		<!-- End action buttons -->
+
+	</form>
+	<!-- End form container -->
+
+</div>
+<!-- End overall container -->

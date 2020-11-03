@@ -1,0 +1,7 @@
+.campaign-card {
+	max-width: 500px;
+}
+.new-deck-card:hover {
+	background-color: #E9ECEF;
+	cursor: pointer;
+}

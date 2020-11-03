@@ -1,15 +1,34 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Campaign } from './models';
+import { AuthService } from './auth.service';
+import { Campaign, CampaignInterface } from './models';
+
 
 @Injectable({
 	providedIn: 'root'
 })
 export class StateService {
 
-	constructor() { }
+	constructor(
+		private auth: AuthService,
+		private db: AngularFirestore
+	) {
+		this.auth.user$.subscribe(user => {
+			if (user) {
+				this.campaignCollection = this.db.doc(`users/${user.uid}`).collection<CampaignInterface>('campaigns');
+				this.campaignCollection.snapshotChanges().pipe(
+					map(data => data.map(action => {
+						const document = action.payload.doc;
+						return new Campaign({ ...document.data(), docRef: document.ref });
+					}))
+				).subscribe(campaigns => this.campaigns = campaigns);
+			}
+		});
+	}
 
 	private readonly _campaigns: BehaviorSubject<Campaign[]> = new BehaviorSubject( [] );
 
@@ -21,50 +40,13 @@ export class StateService {
 
 	private set campaigns(value: Campaign[]) {
 		value.sort((a: Campaign, b: Campaign) => a.name < b.name ? -1 : 1);
-		window.localStorage.setItem('gloom', JSON.stringify(value));
 		this._campaigns.next(value);
 	}
 
-	private readonly _editingCampaign: BehaviorSubject<Campaign> = new BehaviorSubject( null );
-
-	public readonly editingCampaign$: Observable<Campaign> = this._editingCampaign.asObservable();
-
-	private get editingCampaign(): Campaign {
-		return this._editingCampaign.getValue();
-	}
-
-	private set editingCampaign(value: Campaign) {
-		this._editingCampaign.next(value);
-	}
+	campaignCollection: AngularFirestoreCollection<CampaignInterface>;
 
 	addCampaign(campaign: Campaign): void {
-		this.campaigns = [...this.campaigns, campaign];
-	}
-
-	editCampaign(campaign: Campaign): void {
-		this.editingCampaign = campaign;
-	}
-
-	loadState(): void {
-		const data = window.localStorage.getItem('gloom');
-		this.campaigns = data ?
-			JSON.parse(data).map(campaign => new Campaign(campaign)) :
-			[];
-	}
-
-	saveEdits(): void {
-		this.campaigns = [
-			...this.campaigns.filter(c => c.name !== this.editingCampaign.name),
-			this.editingCampaign
-		];
-		this.editingCampaign = null;
-	}
-
-	updateCampaign(campaign: Campaign): void {
-		this.campaigns = [
-			...this.campaigns.filter(c => c.name !== campaign.name),
-			campaign
-		];
+		this.campaignCollection.add(campaign.toPlainObject());
 	}
 
 }

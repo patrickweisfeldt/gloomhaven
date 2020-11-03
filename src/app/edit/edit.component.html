@@ -1,50 +1,105 @@
-<div *ngIf="(campaign$ | async) as campaign">
+<!-- Container plus subscription to the campaign observable -->
+<div *ngIf="(campaign$ | async) as campaign" class="container-fluid">
 	
-	<p>{{ campaign.name }}</p>
+	<h2 class="text-center my-4">{{ campaign.name }}</h2>
 
-	<div>
-		<button type="button" (click)="saveEdits()" routerLink="/">Save Changes</button>
-		<button type="button" routerLink="/">Cancel</button>
+	<!-- Action buttons -->
+	<div class="d-flex justify-content-center my-4">
+		<button type="button" class="btn btn-primary mx-2"
+						routerLink="/campaigns" (click)="campaign.updateDB()">
+			Save Changes
+		</button>
+		<button type="button" class="btn btn-outline-primary mx-2" routerLink="/campaigns">
+			Cancel
+		</button>
 	</div>
+	<!-- End action buttons -->
+	
+	<!-- Container for event tables -->
+	<div class="row justify-content-around">
 
-	<p>City Events</p>
-	<table>
-		<thead>
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">Active</th>
-				<th scope="col">Seen</th>
-				<th scope="col">Completed</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let event of campaign.city">
-				<th scope="row">{{ event.number }}</th>
-				<td><input type="checkbox" [(ngModel)]="event.active"></td>
-				<td><input type="checkbox" [(ngModel)]="event.seen"></td>
-				<td><input type="checkbox" [(ngModel)]="event.complete"></td>
-			</tr>
-		</tbody>
-	</table>
+		<!-- Container for city event section -->
+		<div class="col-10 col-md-5">
 
-	<p>Road Events</p>
-	<table>
-		<thead>
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">Active</th>
-				<th scope="col">Seen</th>
-				<th scope="col">Completed</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let event of campaign.road">
-				<th scope="row">{{ event.number }}</th>
-				<td><input type="checkbox" [(ngModel)]="event.active"></td>
-				<td><input type="checkbox" [(ngModel)]="event.seen"></td>
-				<td><input type="checkbox" [(ngModel)]="event.complete"></td>
-			</tr>
-		</tbody>
-	</table>
+			<!-- City event table -->
+			<h5 class="text-center">City Events</h5>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col" class="w-25">#</th>
+						<th scope="col" class="w-25">Active</th>
+						<th scope="col" class="w-25">Seen</th>
+						<th scope="col" class="w-25">Completed</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let event of campaign.city">
+						<th scope="row">{{ event.number }}</th>
+						<td>
+							<div class="d-flex justify-content-center">
+								<input type="checkbox" class="form-check-input" [(ngModel)]="event.active">
+							</div>
+						</td>
+						<td>
+							<div class="d-flex justify-content-center">
+								<input type="checkbox" class="form-check-input" [(ngModel)]="event.seen">
+							</div>
+						</td>
+						<td>
+							<div class="d-flex justify-content-center">
+								<input type="checkbox" class="form-check-input" [(ngModel)]="event.complete">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- End city event table -->
+
+		</div>
+		<!-- End container for city event section-->
+
+		<!-- Container for road event section -->
+		<div class="col-10 col-md-5">
+
+			<!-- Road event table -->
+			<h5 class="text-center">Road Events</h5>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col" class="w-25">#</th>
+						<th scope="col" class="w-25">Active</th>
+						<th scope="col" class="w-25">Seen</th>
+						<th scope="col" class="w-25">Completed</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let event of campaign.road">
+						<th scope="row">{{ event.number }}</th>
+						<td>
+							<div class="d-flex justify-content-center">
+								<input type="checkbox" class="form-check-input" [(ngModel)]="event.active">
+							</div>
+						</td>
+						<td>
+							<div class="d-flex justify-content-center">
+								<input type="checkbox" class="form-check-input" [(ngModel)]="event.seen">
+							</div>
+						</td>
+						<td>
+							<div class="d-flex justify-content-center">
+								<input type="checkbox" class="form-check-input" [(ngModel)]="event.complete">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- End road event table -->
+
+		</div>
+		<!-- End container for road event section-->
+	
+	</div>
+	<!-- End container for event tables -->
 
 </div>
+<!-- End container plus subscription to the campaign observable-->

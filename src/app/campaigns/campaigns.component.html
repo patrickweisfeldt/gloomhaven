@@ -1,0 +1,84 @@
+<!-- Overall Container -->
+<div class="container-fluid my-2">
+
+	<!-- Row Container -->
+	<div class="row justify-content-center">
+
+		<!-- Card for each campaign -->
+		<div *ngFor="let campaign of campaigns$ | async" class="campaign-card my-3 col-12 col-md-6 col-lg-4">
+			<div class="card shadow h-100">
+				<div class="card-body">
+					<h3 class="card-title text-center">{{ campaign.name }}</h3>
+
+					<!-- Container for action buttons -->
+					<div class="container-fluid">
+
+						<!-- Action buttons before event is selected -->
+						<ng-container *ngIf="!campaign.eventSelected; else eventOptions">
+							<div class="row justify-content-around align-content-around">
+								<button class="btn btn-outline-primary my-2 col-5"
+												(click)="campaign.selectCityEvent()">
+									<small>Select City Event</small>
+								</button>
+								<button class="btn btn-outline-primary my-2 col-5"
+												(click)="campaign.selectRoadEvent()">
+									<small>Select Road Event</small>
+								</button>
+								<button class="btn btn-outline-primary my-2 col-5"
+												(click)="openAddEventModal(campaign)">
+									<small>Add Events</small>
+								</button>
+								<button class="btn btn-outline-primary my-2 col-5"
+												[routerLink]="['/edit', campaign.urlName]">
+									<small>Edit Events</small>
+								</button>
+								<button class="btn btn-outline-primary my-2 col-5"
+												(click)="openDeleteCampaignModal(campaign)">
+									<small>Delete</small>
+								</button>
+							</div>
+						</ng-container>
+						<!-- End action buttons before event is selected -->
+
+						<!-- Action buttons after event is selected -->
+						<ng-template #eventOptions>
+							<h5 class="text-center">{{ campaign.eventSelected.type }} Event: {{ campaign.eventSelected.number }}</h5>
+							<div class="row justify-content-around align-content-around">
+								<button type="button" class="btn btn-primary my-2 col-5"
+												(click)="completeEvent(campaign, false)">
+									Repeatable
+								</button>
+								<button type="button" class="btn btn-primary my-2 col-5"
+												(click)="completeEvent(campaign, true)">
+									Completed
+								</button>
+								<button type="button" class="btn btn-warning my-2 col-5"
+												(click)="campaign.clearEvent()">
+									Cancel
+								</button>
+							</div>
+						</ng-template>
+						<!-- End action buttons after event is selected -->
+
+					</div>
+					<!-- End container for action buttons -->
+
+				</div>
+			</div>
+		</div>
+		<!-- End card for each campaign -->
+
+	</div>
+	<!-- End row container -->
+
+</div>
+<!-- End overall container -->
+
+<!-- Create new campaign button -->
+<div class="row justify-content-center my-4">
+	<button type="button" class="btn btn-primary btn-lg col-8 col-md-4"
+					(click)="openNewCampaignModal()">
+		Create New Campaign
+	</button>
+</div>
+<!-- End create new campaign button -->
