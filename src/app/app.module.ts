@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -56,7 +57,8 @@ const firebaseConfig = {
 		CollapseModule.forRoot(),
 		FormsModule,
 		ModalModule.forRoot(),
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		RouterModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

@@ -12,7 +12,22 @@
 				<label for="email" class="col-sm-3 col-form-label">Email:</label>
 				<div class="col-sm-9">
 					<input id="email" class="form-control" type="email"
-								placeholder="Email" formControlName="email">
+								 placeholder="Email" formControlName="email"
+								 [class.is-valid]="email.touched && email.valid"
+								 [class.is-invalid]="email.touched && email.dirty && email.invalid">
+
+					<!-- Error feedback messages -->
+					<div *ngIf="email.errors?.email" class="invalid-feedback">
+						Please enter a valid email address
+					</div>
+					<div *ngIf="email.errors?.emailTaken" class="invalid-feedback">
+						That email address is taken, please try another
+					</div>
+					<div *ngIf="email.errors?.required" class="invalid-feedback">
+						Required
+					</div>
+					<!-- End error feedback messages -->
+
 				</div>
 			</div>
 			<!-- End email input container -->
@@ -22,17 +37,54 @@
 				<label for="password" class="col-sm-3 col-form-label">Password:</label>
 				<div class="col-sm-9">
 					<input id="password" class="form-control" type="password" 
-								placeholder="Password" formControlName="password">
+								 placeholder="Password" formControlName="password"
+								 [class.is-valid]="password.touched && password.valid"
+								 [class.is-invalid]="password.touched && password.dirty && password.invalid">
+					
+					<!-- Error feedback messages -->
+					<div *ngIf="password.errors?.minlength as error" class="invalid-feedback">
+						Password must be at least {{ error.requiredLength }} characters long
+					</div>
+					<div *ngIf="password.errors?.required" class="invalid-feedback">
+						Required
+					</div>
+					<!-- End error feedback messages -->
+
 				</div>
 			</div>
 			<!-- End password input container -->
 
+			<!-- Confirm password input container -->
+			<div class="form-group row">
+				<label for="confirm-password" class="col-sm-3 col-form-label">Confirm Password:</label>
+				<div class="col-sm-9">
+					<input id="confirm-password" class="form-control" type="password" 
+								 placeholder="Confirm Password" formControlName="confirmPassword"
+								 [class.is-valid]="confirmPassword.dirty && confirmPassword.valid && password.valid && !registerForm.errors?.passwordMatch"
+								 [class.is-invalid]="confirmPassword.dirty && (confirmPassword.invalid || password.invalid || registerForm.errors?.passwordMatch)">
+					
+					<!-- Error feedback messages -->
+					<div *ngIf="registerForm.errors?.passwordMatch" class="invalid-feedback">
+						Passwords must match
+					</div>
+					<!-- End error feedback messages -->
+
+				</div>
+			</div>
+			<!-- End confirm password input container -->
+
 			<!-- Action button -->
-			<button type="submit" class="btn btn-primary btn-block"
+			<button type="submit" class="btn btn-primary btn-block my-4"
 							[disabled]="!registerForm.valid">
 				Sign Up
 			</button>
 			<!-- End action button -->
+
+			<!-- Link to login page -->
+			<div class="text-center">
+				Already registered? <a href="" routerLink="/login">Sign In</a>
+			</div>
+			<!-- End link to login page -->
 			
 		</form>
 		<!-- End form container -->

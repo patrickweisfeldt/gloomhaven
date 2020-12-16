@@ -5,7 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from 'firebase';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 
@@ -22,11 +22,19 @@ export class AuthService {
 		this.user$ = this.fireAuth.authState;
 	}
 
+	private _authErrors: Subject<any> = new Subject();
+
+	readonly authErrors$: Observable<any> = this._authErrors.asObservable();
+
 	get loggedIn(): Promise<boolean> {
 		return this.user$.pipe( first(), map(user => !!user) ).toPromise();
 	}
 
 	user$: Observable<User>;
+
+	emailValidator(email: string): Promise<string[]> {
+		return this.fireAuth.fetchSignInMethodsForEmail(email);
+	}
 
 	register(formData: any): void {
 		this.fireAuth.createUserWithEmailAndPassword(formData.email, formData.password)
@@ -38,6 +46,7 @@ export class AuthService {
 
 	signIn(formData: any): void {
 		this.fireAuth.signInWithEmailAndPassword(formData.email, formData.password)
+			.catch(error => this._authErrors.next(error))
 			.then(() => this.router.navigate(['/campaigns']));
 	}
 
